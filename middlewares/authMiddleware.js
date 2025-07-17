@@ -1,6 +1,6 @@
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
-const protect = (req, res, next) => {
+export const protect = (req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1];
   if (!token) return res.status(401).json({ message: "Not authorized" });
 
@@ -13,10 +13,10 @@ const protect = (req, res, next) => {
   }
 };
 
-const isSuperAdmin = (req, res, next) => {
+export const isSuperAdmin = (req, res, next) => {
   if (req.user.role !== "superadmin")
     return res.status(403).json({ message: "Only Super Admin allowed" });
   next();
 };
 
-module.exports = { protect, isSuperAdmin };
+

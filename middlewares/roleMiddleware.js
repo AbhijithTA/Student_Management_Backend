@@ -1,9 +1,9 @@
-const StaffPermissions = require("../models/StaffPermissions");
+import StaffPermissions from "../models/StaffPermissions.js";
 
-const allowedWithPermission = (action) => async (req, res, next) => {
-  if (req.user.role === "superadmin") return next();
+export const allowedWithPermission = (action) => async (req, res, next) => {
+  if (req.user?.role === "superadmin") return next();
 
-  const permission = await StaffPermissions.findOne({ staffId: req.user.id });
+  const permission = await StaffPermissions.findOne({ staffId: req.user?.id });
   if (permission && permission[action]) return next();
   return res
     .status(403)
@@ -11,4 +11,3 @@ const allowedWithPermission = (action) => async (req, res, next) => {
 };
 
 
-module.exports = { allowedWithPermission };
