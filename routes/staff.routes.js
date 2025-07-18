@@ -1,5 +1,5 @@
 import express from "express";
-import { isSuperAdmin, protect } from "../middlewares/authmiddleware.js";
+import { isSuperAdmin, protect } from "../middlewares/authMiddleware.js";
 import { assignPermissions, createStaff, deleteStaff, getAllStaff, updateStaff } from "../controllers/staff..controller.js";
 const router = express.Router();
 
