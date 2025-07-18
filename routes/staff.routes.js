@@ -8,6 +8,6 @@ router.post("/",isSuperAdmin, createStaff);
 router.get("/", isSuperAdmin, getAllStaff);
 router.put("/:id", isSuperAdmin, updateStaff);
 router.delete("/:id", isSuperAdmin, deleteStaff);
-router.post("/permission/:staffId", isSuperAdmin, assignPermissions);
+router.post("/permissions/:staffId", isSuperAdmin, assignPermissions);
 
 export default router;

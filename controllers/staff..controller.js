@@ -20,15 +20,22 @@ export const createStaff = async (req, res) => {
   }
 };
 
+
 export const getAllStaff = async (req, res) => {
-  try {
-    const staffList = await User.find({ role: "staff" });
-    res.json(staffList);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-    console.log("Error occured in the controller", err);
-  }
+  const staffList = await User.find({ role: "staff" });
+  const staffWithPermissions = await Promise.all(
+    staffList.map(async (staff) => {
+      const permission = await StaffPermissions.findOne({ staffId: staff._id });
+      return {
+        ...staff.toObject(),
+        permissions: permission || {}, 
+      };
+    })
+  );
+
+  res.json(staffWithPermissions);
 };
+
 
 export const updateStaff = async (req, res) => {
   try {
@@ -54,11 +61,13 @@ export const deleteStaff = async (req, res) => {
 
 export const assignPermissions = async (req, res) => {
   const { staffId } = req.params;
-  const { creae, view, edit, delete: del } = req.body;
+  const { create, view, edit, del } = req.body;
+  // console.log(staffId, create, view, edit, del);
+  console.log(req.body);
   try {
     const permission = await StaffPermissions.findOneAndUpdate(
       { staffId },
-      { creae, view, edit, del },
+      { create, view, edit, del },
       { new: true, upsert: true }
     );
     res.json({ message: "Permissions Updated", permission });

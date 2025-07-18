@@ -9,6 +9,6 @@ router.use(protect);
 router.post("/", allowedWithPermission("create"),createStudent);
 router.get("/", allowedWithPermission("view"),getStudents);
 router.put("/:id", allowedWithPermission("edit"),updateStudent);
-router.delete("/:id", allowedWithPermission("delete"),deleteStudent);
+router.delete("/:id", allowedWithPermission("del"),deleteStudent);
 
 export default router;
